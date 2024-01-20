@@ -12,12 +12,12 @@ export function* getShowSaga (action: AnyAction): Generator<any, any, any>{
   const shows = shows_cast.map((items: Show_Cast)=>(items.show));
   
   const cast = shows_cast.map((items)=>(items.cast));
+  
   yield put(showsLoadedAction(shows));
   yield put(castLoadedAction(cast));
 };
 
 export function* getShowDetailSaga (action: AnyAction): Generator<any, any, any>{
   const detail: Shows =  yield call(getTvShowDetail, action.payload);
-  yield put(showDetailLoadedAction(detail));
-  
-};
+ console.log('detail in saga')
+  yield put(showDetailLoadedAction(detail))}

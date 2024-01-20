@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, memo } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import { ShowDetailApiCalled } from "../action/Shows";
@@ -8,10 +8,9 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import withRouter, { WithRouterProps } from "../hocs/withRouter";
 import { Person } from "../Models/Shows";
 import { castMapSelector } from "../selectors/Cast";
-import { showDetailSelector, showLoadingSelector, showMapSelector } from "../selectors/Show";
-import { showDetailLoadedAction, showLoadingAction } from "../slices/Show";
+import { showLoadingSelector, showMapSelector } from "../selectors/Show";
+import { showLoadingAction } from "../slices/Show";
 import { State } from "../Store";
-
 
 type ShowDetailPageProps = ReduxProps & WithRouterProps;
 
@@ -19,14 +18,17 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({ params,  detail, cast, detail
 
   const imgTemplate = "https://i.postimg.cc/8PCM43NR/missing-image-of-a-person-placeholder.jpg";
  const id = +params.show_id;
+
   
   useEffect(()=>{
-    loadingAction()
-    detailApiCall(id);
-  },[id]);
-console.log('detrail', detail)
-  const castArr = cast[id];
-  console.log("castarr",castArr)
+    
+  loadingAction()
+  detailApiCall(id);
+    
+  },[]);
+  
+console.log('detail in page', id, detail, cast[id])
+  
   return (
     <div className="mt-2 p-1 ">
     <Link to={"/"} className="text-xl font-sm px-2 py-1 bg-gray-100 border-2 border-gray-200 ">back</Link>
@@ -61,9 +63,10 @@ console.log('detrail', detail)
 
         <h4 className="text-2xl font-semibold tracking-wide mt-3">Cast</h4> 
         <div className="sm:grid sm:grid-cols-3 grid grid-cols-2">
-          {cast[id].person.map((c: Person)=>{
-             return <CastCard avatarLink={c.image?.medium||imgTemplate} key={c.id} name={c.name}/>
-    }) }
+
+
+
+
           
         </div>
       </div>
@@ -84,4 +87,8 @@ loadingAction: showLoadingAction
 } 
 const connecter = connect(mapStateToProps, mapDispatchToProps);
   type ReduxProps = ConnectedProps<typeof connecter>
-export default withRouter(connecter(ShowDetailPage));
+export default withRouter(connecter(memo(ShowDetailPage)));
+
+ // {cast[id].person.map((c: Person)=>{
+ //             return <CastCard avatarLink={c.image?.medium||imgTemplate} key={c.id} name={c.name}/>
+ //    }) } 

@@ -1,20 +1,22 @@
-import React, {FC, ChangeEvent, memo} from "react";
+import React, {FC, ChangeEvent, memo, Suspense} from "react";
 import { connect, ConnectedProps} from "react-redux";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import SearchBar from "../Components/SearchBar";
-import ShowCard from "../Components/ShowCard";
+// import ShowCard from "../Components/ShowCard";
 import { castMapSelector } from "../selectors/Cast";
 import { loadingSelector, queryMapSelector, showsLoadedSelector } from "../selectors/Show";
 import { queryChangeAction } from "../slices/Show";
 import { State } from "../Store";
 
+const ShowCard = React.lazy(()=>(import("../Components/ShowCard")))
+
 type ShowListPageProps = {} & reduxProps
 
 const ShowListPage:FC<ShowListPageProps>=({ shows, query, queryChangeAction, loading, cast})=>{
+  
     const handleQueryChange = (e: ChangeEvent<HTMLInputElement>)=>{
     queryChangeAction(e.target.value);
     };
-  console.log('show', shows)
   return (
     <div className="mt-2">
       <SearchBar value={query} onChange={handleQueryChange} />
@@ -23,11 +25,14 @@ const ShowListPage:FC<ShowListPageProps>=({ shows, query, queryChangeAction, loa
       </div>}
       
        <div className="flex flex-wrap justify-center">
-        {shows.map((show: any)=>{
+         <Suspense fallback={<div className="text-center">just a wait...</div>}>
+        {
+          shows.map((show: any)=>{
        return <ShowCard key={show!.id} show={show!} cast={cast[show?.id]} />
       
         })
  }
+        </Suspense>
        
       </div>
     </div>

@@ -1,8 +1,11 @@
-import React, {FC, useState} from "react";
+import React, {FC, Suspense, useState} from "react";
 import { Link } from "react-router-dom";
 import withRouter, { WithRouterProps } from "../hocs/withRouter";
 import { Person, Shows } from "../Models/Shows";
-import Avatar from "./Avatar";
+import LoadingSpinner from "./LoadingSpinner";
+// import Avatar from "./Avatar";
+
+const Avatar = React.lazy(()=>(import("./Avatar")));
 
 type ShowCardProps = {
   show: Shows,
@@ -57,6 +60,9 @@ console.log("show in com", show)
         </div>
         
         <div className="flex justify-center">
+          <Suspense fallback={<div className=" flex mt-2 flex-col items-center">
+          <LoadingSpinner className="text-xl font-bold"/>
+          </div>}>
           {
             viewCast.map((p)=>(
               <Avatar cast={p} />
@@ -64,6 +70,7 @@ console.log("show in com", show)
           }
           
             { cast.person.length - viewCast.length !==0 && <button onClick={handleCastPopup} className="rounded-full border border-gray-200 w-10 h-10 font-semibold">+{cast.person.length - viewCast.length }</button> }
+            </Suspense>
         </div>
         <Link
           to={"/show/" + show.id}

@@ -5,10 +5,6 @@ import { State } from "../Store";
   return state.show
 };
 
-export const showDetailSelector = createSelector(stateSelector, (state)=>{
-  return state.detail
-})
-
 export const queryMapSelector = createSelector(stateSelector, (showState)=>( showState.query ));
 
 export const loadingSelector = createSelector(stateSelector, (showState)=>(showState.loading));
@@ -17,9 +13,11 @@ export const showLoadingSelector = createSelector(stateSelector, (showState)=>{
   return showState.show_loading
 })
  
-export const showMapSelector = createSelector(stateSelector, (showState)=>(
-  showState.entities
-));
+export const showMapSelector = createSelector(stateSelector, (showState)=>{
+  console.log("show in selector", showState.show)
+  return showState.show
+}
+);
 
 export const showQueryMapSelector = createSelector(stateSelector, (showState)=>(showState.show_query ))
 
