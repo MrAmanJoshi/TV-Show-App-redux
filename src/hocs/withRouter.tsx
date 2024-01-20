@@ -1,35 +1,19 @@
 import React from "react";
-
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams, Location } from "react-router-dom";
 
 export interface WithRouterProps {
-  location: ReturnType<typeof useLocation>;
-  params: Record<string, string>;
+  location: Location;
+  params: { [key: string]: string };
   navigate: ReturnType<typeof useNavigate>;
 }
 
-const withRouter = <Props extends WithRouterProps>(
+export const withRouter = <Props extends WithRouterProps>(
   Component: React.ComponentType<Props>
-) => {
-  return (props: Omit<Props, keyof WithRouterProps>) => {
-    const location = useLocation();
-    const params = useParams();
-    const navigate = useNavigate();
+) => (props: Omit<Props, keyof WithRouterProps>) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
 
-    return (
-      <Component
-        {...(props as Props)}
-        location={location}
-        params={params}
-        navigate={navigate}
-      />
-    );
-  };
+  return <Component {...(props as Props)} location={location} params={params} navigate={navigate} />;
 };
 
-export default withRouter;

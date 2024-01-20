@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import ShowDetailPage from "./Pages/ShowDetails.Page";
 import ShowListPage from "./Pages/ShowsList.Page";
-
+// need to fix UI bugs
 function App() {
   return (
     <React.Fragment>

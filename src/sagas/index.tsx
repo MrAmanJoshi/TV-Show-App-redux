@@ -6,7 +6,7 @@ import { getShowDetailSaga, getShowSaga } from './Show';
 
 export const sagaMiddleWare = createSagaMiddleware();
 
- export function* rootSaga(){
-   yield debounce(500, queryChangeAction, getShowSaga);
-   yield takeEvery( SHOWS_DETAIL_API_CALL , getShowDetailSaga );
+export function* rootSaga() {
+  yield debounce(250, queryChangeAction, getShowSaga);
+  yield takeEvery(SHOWS_DETAIL_API_CALL, getShowDetailSaga);
 };

@@ -1,18 +1,18 @@
-import React, { FC, memo } from "react";
+import { FC, memo } from "react";
 import { BsSearch } from "react-icons/bs";
 
 type SearchBarProps = {
-  onChange: (e: any)=>void,
+  onChange: (e: any) => void,
   value: string
 }
-const SearchBar:FC<SearchBarProps>=(props)=> {
-  
+const SearchBar: FC<SearchBarProps> = (props) => {
+
   return (
     <div className="relative">
-      <input {...props} className="px-2 py-1 w-full rounded-full border border-black" type="text" placeholder="Search your favourite web series" />
+      <input {...props} className="px-2 py-1 w-full rounded-full border border-black" type="text" placeholder="Search your favourite web series or TV-show..." />
       <BsSearch className="absolute right-4 top-1/2 -translate-y-1/2" />
     </div>
   );
 }
 
-export default memo( SearchBar );
+export default memo(SearchBar);
